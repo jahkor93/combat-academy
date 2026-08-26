@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Combat Academy">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>Combat & Survival Academy</title>
+  <style>
+    :root{
+      --bg:#0a0f16; --panel:#111925; --panel2:#172231; --line:#263548;
+      --text:#f4f7fb; --muted:#9fb0c5; --accent:#d5ff4b; --accent2:#7dd3fc;
+      --good:#6ee7a8; --warn:#fbbf24; --danger:#fb7185; --purple:#c084fc;
+      --shadow:0 12px 32px rgba(0,0,0,.22);
+    }
+    *{box-sizing:border-box}
+    html{background:var(--bg)}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 85% 0%,rgba(213,255,75,.10),transparent 24rem),var(--bg);color:var(--text);min-height:100vh}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:760px;margin:0 auto;padding:18px 14px 96px}
+    .brand{display:flex;align-items:center;gap:12px;margin:4px 2px 18px}
+    .crest{width:48px;height:48px;border:1px solid #405169;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#172231,#0e151f);box-shadow:var(--shadow);font-weight:900;color:var(--accent);letter-spacing:-1px}
+    .brand h1{font-size:20px;margin:0;line-height:1.05;letter-spacing:.04em}
+    .brand p{margin:4px 0 0;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .screen{display:none}.screen.active{display:block}
+    .hero{border:1px solid var(--line);border-radius:22px;padding:18px;background:linear-gradient(145deg,rgba(23,34,49,.96),rgba(13,20,30,.96));box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:140px;height:140px;border:22px solid rgba(213,255,75,.05);border-radius:50%;right:-54px;top:-52px}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:800}
+    .phase-title{font-size:29px;line-height:1;margin:9px 0 7px;letter-spacing:-.03em}
+    .sub{color:var(--muted);font-size:14px;line-height:1.5}
+    .progress{height:10px;border-radius:99px;background:#0a111a;border:1px solid #223144;overflow:hidden;margin:16px 0 8px}
+    .progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#b8e534);width:0%;transition:width .25s}
+    .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
+    .stat{padding:12px;border-radius:16px;background:#0d151f;border:1px solid #223144;min-width:0}
+    .stat b{display:block;font-size:20px}.stat span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .section{margin-top:18px}
+    .section-title{display:flex;justify-content:space-between;gap:10px;align-items:end;margin:0 3px 9px}
+    .section-title h2{font-size:15px;margin:0;letter-spacing:.08em;text-transform:uppercase}
+    .section-title span{color:var(--muted);font-size:12px}
+    .card{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:14px;box-shadow:var(--shadow)}
+    .mission{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #223144}
+    .mission:last-child{border-bottom:0}
+    .mission-icon{width:42px;height:42px;border-radius:13px;background:#0c141e;border:1px solid #27384e;display:grid;place-items:center;font-size:20px}
+    .mission h3{margin:0 0 2px;font-size:15px}.mission p{margin:0;color:var(--muted);font-size:12px}
+    .badge{border-radius:99px;padding:6px 9px;font-size:11px;font-weight:800;background:#243247;color:#c7d2e1;white-space:nowrap}
+    .badge.done{background:rgba(110,231,168,.13);color:var(--good);border:1px solid rgba(110,231,168,.3)}
+    .badge.bonus{background:rgba(192,132,252,.13);color:#d8b4fe}
+    .btn{border:0;border-radius:14px;padding:13px 15px;font-weight:850;background:var(--accent);color:#111827;min-height:46px}
+    .btn.secondary{background:#1b293a;color:var(--text);border:1px solid #31445c}
+    .btn.danger{background:rgba(251,113,133,.13);color:#fecdd3;border:1px solid rgba(251,113,133,.3)}
+    .btn:disabled{opacity:.45;cursor:not-allowed}
+    .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}.actions .btn{flex:1}
+    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    label{display:block;color:#c8d3e0;font-size:12px;font-weight:750;margin:0 0 6px}
+    input,select,textarea{width:100%;border:1px solid #304157;background:#0c141e;color:var(--text);border-radius:12px;padding:12px;min-height:46px;outline:none}
+    textarea{min-height:82px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:#6b839f;box-shadow:0 0 0 3px rgba(125,211,252,.08)}
+    .full{grid-column:1/-1}
+    .notice{padding:12px 13px;border-radius:14px;background:rgba(125,211,252,.07);border:1px solid rgba(125,211,252,.22);color:#d8edf8;font-size:13px;line-height:1.45}
+    .locked{background:rgba(251,191,36,.06);border-color:rgba(251,191,36,.24);color:#fde68a}
+    .feed{display:flex;flex-direction:column;gap:8px}
+    .entry{display:grid;grid-template-columns:1fr auto;gap:9px;border:1px solid #263548;background:#0e1621;border-radius:14px;padding:11px 12px}
+    .entry strong{font-size:13px}.entry small{display:block;color:var(--muted);margin-top:3px;line-height:1.35}
+    .entry .pill{align-self:start}
+    .pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#1d2a3a;color:#c9d6e5;font-weight:800}
+    .discipline-MuayThai{color:#fb923c}.discipline-Boxing{color:#fb7185}.discipline-NoGi{color:#60a5fa}.discipline-MMA{color:#c084fc}.discipline-Strength{color:#a3e635}.discipline-Yoga{color:#2dd4bf}.discipline-Pilates{color:#f9a8d4}
+    .planner-day{border:1px solid #263548;border-radius:16px;padding:12px;background:#0e1621;margin-bottom:10px}
+    .planner-top{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center}
+    .planner-top strong{font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+    .available{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}
+    .classchip{padding:8px 9px;border:1px solid #31435a;background:#121e2b;border-radius:12px;font-size:11px;color:#d8e2ee}
+    .classchip b{display:block;color:#fff;font-size:12px;margin-bottom:2px}
+    .weekcard{border:1px solid #263548;border-radius:16px;background:#0e1621;padding:12px;margin-bottom:9px}
+    .weekhead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .weekhead h3{margin:0;font-size:14px}.grade{font-weight:950;font-size:19px;color:var(--accent)}
+    .weekmeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+    .tabbar{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(730px,calc(100% - 18px));display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:7px;background:rgba(10,15,22,.92);backdrop-filter:blur(12px);border:1px solid #27384c;border-radius:20px;z-index:20;box-shadow:var(--shadow)}
+    .tabbar button{border:0;background:transparent;color:#92a4b8;border-radius:14px;min-height:48px;padding:6px 2px;font-size:10px;font-weight:800}
+    .tabbar button span{display:block;font-size:18px;margin-bottom:2px}
+    .tabbar button.active{background:#1b293a;color:var(--accent)}
+    .rankline{display:flex;align-items:center;gap:10px;margin-top:12px}
+    .rankseal{width:56px;height:56px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-weight:950;background:#0c141e}
+    .rankline h3{margin:0;font-size:18px}.rankline p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .divider{height:1px;background:#223144;margin:12px 0}
+    .muted{color:var(--muted)}
+    .tiny{font-size:11px}
+    .empty{text-align:center;color:var(--muted);font-size:13px;padding:20px 8px}
+    .toast{position:fixed;left:50%;top:12px;transform:translateX(-50%);background:#172231;color:#fff;border:1px solid #3a5068;border-radius:12px;padding:10px 14px;z-index:30;box-shadow:var(--shadow);display:none;font-size:13px;max-width:calc(100% - 28px)}
+    .toast.show{display:block}
+    .toggleline{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:8px 0}
+    .switch{appearance:none;width:50px;height:28px;border-radius:99px;background:#263548;border:1px solid #394e66;position:relative;transition:.2s}
+    .switch:before{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.2s}
+    .switch:checked{background:var(--accent)}.switch:checked:before{transform:translateX(22px);background:#111827}
+    .table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{padding:9px 7px;border-bottom:1px solid #223144;text-align:left}.table th{color:#9fb0c5;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+    .tablewrap{overflow-x:auto}
+    @media(max-width:480px){.app{padding-left:10px;padding-right:10px}.phase-title{font-size:25px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.statrow{gap:6px}.stat{padding:10px 8px}.stat b{font-size:17px}.planner-top{grid-template-columns:82px 1fr}.tabbar{grid-template-columns:repeat(6,1fr)}}
+  </style>
+</head>
+<body>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <main class="app">
+    <header class="brand">
+      <div class="crest">CSA</div>
+      <div><h1>COMBAT & SURVIVAL ACADEMY</h1><p>Personal Training Command</p></div>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <div class="eyebrow" id="phaseEyebrow">PHASE 0 · SELECTION</div>
+        <h2 class="phase-title" id="phaseTitle">EARN THE CWI</h2>
+        <div class="sub" id="phaseSub">Complete your CWI shadowing and assessment to unlock Fightzone Academy training.</div>
+        <div class="progress"><span id="heroProgress"></span></div>
+        <div class="tiny muted" id="heroProgressText">0 shadow sessions logged</div>
+        <div class="statrow">
+          <div class="stat"><b id="statA">0</b><span id="statALabel">Shadow sessions</span></div>
+          <div class="stat"><b id="statB">0h</b><span id="statBLabel">Shadow hours</span></div>
+          <div class="stat"><b id="statC">LOCKED</b><span id="statCLabel">Fightzone</span></div>
+        </div>
+      </div>
+
+      <div id="academyHome" style="display:none">
+        <div class="section">
+          <div class="section-title"><h2>Weekly Orders</h2><span id="weekLabel"></span></div>
+          <div class="card" id="missionList"></div>
+        </div>
+        <div class="section">
+          <div class="section-title"><h2>Academy Rank</h2><span>24-pass campaign</span></div>
+          <div class="card">
+            <div class="rankline"><div class="rankseal" id="rankSeal">C</div><div><h3 id="rankName">Cadet</h3><p id="rankProgressText"></p></div></div>
+            <div class="progress"><span id="rankProgress"></span></div>
+            <div class="statrow">
+              <div class="stat"><b id="passesStat">0</b><span>Passed weeks</span></div>
+              <div class="stat"><b id="sessionsStat">0</b><span>Total sessions</span></div>
+              <div class="stat"><b id="gradeStat">—</b><span>This week</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="selectionHome">
+        <div class="section-title"><h2>Selection Orders</h2><span>CWI prerequisite</span></div>
+        <div class="card">
+          <div class="mission"><div class="mission-icon">👁️</div><div><h3>Shadowing</h3><p>Log every CWI shadow session.</p></div><span class="badge" id="shadowBadge">0 logged</span></div>
+          <div class="mission"><div class="mission-icon">🧭</div><div><h3>Assessment</h3><p>Complete the final CWI assessment.</p></div><span class="badge" id="assessmentBadge">LOCKED</span></div>
+          <div class="mission"><div class="mission-icon">🥋</div><div><h3>Fightzone Access</h3><p>Your reward for completing CWI.</p></div><span class="badge" id="fightzoneBadge">LOCKED</span></div>
+          <div class="actions"><button class="btn" data-go="selection">LOG SHADOWING</button><button class="btn secondary" data-go="intel">VIEW FIGHTZONE INTEL</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="selection" class="screen">
+      <div class="section-title"><h2>CWI Selection</h2><span>Phase 0</span></div>
+      <div class="notice locked">Fightzone membership stays locked until you mark the CWI as qualified. This is the entrance exam.</div>
+      <div class="section">
+        <div class="card">
+          <form id="shadowForm" class="formgrid">
+            <div><label for="shadowDate">Date</label><input id="shadowDate" type="date" required></div>
+            <div><label for="shadowHours">Hours</label><input id="shadowHours" type="number" min="0.25" max="12" step="0.25" value="2" required></div>
+            <div class="full"><label for="shadowNotes">Shadowing notes</label><textarea id="shadowNotes" placeholder="What did you observe or practise?"></textarea></div>
+            <button class="btn full" type="submit">ADD SHADOW SESSION</button>
+          </form>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title"><h2>Selection Log</h2><span id="shadowTotalText"></span></div>
+        <div class="feed" id="shadowFeed"></div>
+      </div>
+      <div class="section">
+        <div class="card">
+          <div class="toggleline"><div><strong>CWI qualified</strong><div class="tiny muted">Unlocks Academy training immediately.</div></div><input id="cwiToggle" class="switch" type="checkbox" aria-label="CWI qualified"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="log" class="screen">
+      <div class="section-title"><h2>Training Log</h2><span id="logLockLabel"></span></div>
+      <div id="logLocked" class="notice locked">🔒 Training logging is locked until CWI qualification.</div>
+      <div id="logUnlocked" style="display:none">
+        <div class="card">
+          <form id="trainingForm" class="formgrid">
+            <div><label for="trainingDate">Date</label><input id="trainingDate" type="date" required></div>
+            <div><label for="discipline">Discipline</label>
+              <select id="discipline" required>
+                <option>Muay Thai</option><option>Boxing</option><option>No-Gi</option><option>MMA</option><option>Strength</option><option>Yoga</option><option>Pilates</option>
+              </select>
+            </div>
+            <div><label for="classLevel">Class</label><select id="classLevel"><option>Mixed</option><option>Beginners</option><option>Strength</option><option>Yoga</option><option>Pilates</option><option>Other</option></select></div>
+            <div><label for="duration">Minutes</label><input id="duration" type="number" min="15" max="240" step="5" value="60"></div>
+            <div class="full"><label for="trainingNotes">Mission report</label><textarea id="trainingNotes" placeholder="Optional: what did you learn, what felt hard, what improved?"></textarea></div>
+            <button class="btn full" type="submit">LOG TRAINING</button>
+          </form>
+        </div>
+        <div class="section">
+          <div class="section-title"><h2>Recent Training</h2><span id="trainingCountText"></span></div>
+          <div class="feed" id="trainingFeed"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner" class="screen">
+      <div class="section-title"><h2>Rota Planner</h2><span>Classes before work</span></div>
+      <div class="notice">Choose your work shift for each day. The app shows Fightzone classes that finish before your leave-for-work cutoff.</div>
+      <div class="section">
+        <div class="card">
+          <div class="formgrid">
+            <div><label for="commuteBuffer">Travel / change buffer (minutes)</label><input id="commuteBuffer" type="number" min="0" max="120" step="5" value="45"></div>
+            <div><label>&nbsp;</label><button class="btn secondary" id="savePlanner" type="button">SAVE ROTA</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="plannerDays"></div>
+    </section>
+
+    <section id="intel" class="screen">
+      <div class="section-title"><h2>Fightzone Intel</h2><span>Selected classes · up to 3pm</span></div>
+      <div class="notice">Your future Academy timetable. Beginner/Mixed combat classes, all Strength classes, plus Yoga and Pilates up to 3pm.</div>
+      <div class="section" id="timetableCards"></div>
+    </section>
+
+    <section id="records" class="screen">
+      <div class="section-title"><h2>Academy Record</h2><span>Weekly results</span></div>
+      <div id="recordsLocked" class="notice locked">🔒 Weekly Academy records begin once CWI is qualified.</div>
+      <div id="recordsUnlocked" style="display:none">
+        <div class="card">
+          <div class="statrow">
+            <div class="stat"><b id="recordPasses">0</b><span>Passes</span></div>
+            <div class="stat"><b id="recordRate">0%</b><span>Pass rate</span></div>
+            <div class="stat"><b id="recordCombat">0</b><span>Combat sessions</span></div>
+          </div>
+        </div>
+        <div class="section"><div id="weekHistory"></div></div>
+      </div>
+    </section>
+
+    <section id="settings" class="screen">
+      <div class="section-title"><h2>Command Settings</h2><span>Local to this device</span></div>
+      <div class="card">
+        <div class="formgrid">
+          <div><label for="academyStart">Academy start Monday</label><input id="academyStart" type="date"></div>
+          <div><label for="shadowTarget">Shadow target (sessions)</label><input id="shadowTarget" type="number" min="1" max="100" step="1" value="6"></div>
+          <div class="full"><label for="cadetName">Cadet callsign</label><input id="cadetName" type="text" maxlength="30" placeholder="Optional"></div>
+          <button class="btn full" id="saveSettings" type="button">SAVE SETTINGS</button>
+        </div>
+      </div>
+      <div class="section">
+        <div class="card">
+          <strong>Weekly pass standard</strong>
+          <p class="sub">1 striking class + 1 No-Gi class + 1 additional combat class + 1 Strength class. Yoga/Pilates is a Recovery Bonus. Four passed weeks advances the campaign; every fourth campaign week is an Assessment Week.</p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="card">
+          <strong>Data</strong><p class="sub">Progress is stored only in this browser on this device. Export a backup if you care about keeping it.</p>
+          <div class="actions"><button class="btn secondary" id="exportBtn" type="button">EXPORT BACKUP</button><button class="btn danger" id="resetBtn" type="button">RESET ALL DATA</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="Primary">
+    <button class="active" data-tab="home"><span>⌂</span>HOME</button>
+    <button data-tab="selection"><span>🎯</span>CWI</button>
+    <button data-tab="log"><span>＋</span>LOG</button>
+    <button data-tab="planner"><span>▦</span>ROTA</button>
+    <button data-tab="intel"><span>◉</span>INTEL</button>
+    <button data-tab="records"><span>★</span>RECORD</button>
+  </nav>
+
+  <script>
+  (() => {
+    const KEY='csa_v1';
+    const weekdayShifts=['Off','07:30–15:00','12:00–20:00','15:00–21:00','16:00–22:30'];
+    const saturdayShifts=['Off','08:30–15:00','09:00–16:30','11:00–18:00','14:30–20:30'];
+    const sundayShifts=['Off','14:30–22:30'];
+    const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const timetable={
+      Monday:[
+        ['07:00','08:00','Muay Thai','Mixed'],['08:30','09:15','Yoga','Yoga'],['09:00','10:00','Strength','Strength'],
+        ['09:30','10:30','No-Gi','Beginners'],['11:00','12:00','MMA','Beginners'],['11:00','12:30','Muay Thai','Mixed'],['13:45','14:30','Pilates','Pilates']],
+      Tuesday:[
+        ['07:00','08:00','No-Gi','Mixed'],['08:00','09:00','Strength','Strength'],['08:30','09:15','Pilates','Pilates'],
+        ['11:00','12:00','Strength','Strength'],['11:30','12:30','No-Gi','Mixed'],['12:30','13:30','Boxing','Mixed']],
+      Wednesday:[
+        ['08:30','09:15','Yoga','Yoga'],['09:00','10:00','Strength','Strength'],['09:30','10:30','No-Gi','Beginners'],
+        ['11:00','12:00','MMA','Beginners'],['11:00','12:30','Muay Thai','Mixed'],['13:45','14:30','Pilates','Pilates']],
+      Thursday:[
+        ['07:00','08:00','No-Gi','Mixed'],['08:00','09:00','Strength','Strength'],['08:30','09:15','Pilates','Pilates'],
+        ['11:00','12:00','Strength','Strength'],['11:30','12:30','No-Gi','Mixed'],['12:30','13:30','Boxing','Mixed']],
+      Friday:[
+        ['09:00','10:00','Strength','Strength'],['09:30','10:45','No-Gi','Beginners'],['11:00','12:00','MMA','Beginners'],['11:00','12:30','Muay Thai','Mixed']],
+      Saturday:[
+        ['08:00','09:00','Strength','Strength'],['11:15','12:15','Muay Thai','Mixed'],['12:15','13:15','MMA','Mixed'],
+        ['12:30','13:30','Boxing','Mixed'],['12:30','13:45','No-Gi','Mixed']],
+      Sunday:[['10:45','11:30','Pilates','Pilates']]
+    };
+    const defaults={
+      cwiComplete:false,shadow:[],training:[],shadowTarget:6,academyStart:'2026-10-05',cadetName:'',
+      commuteBuffer:45,rota:{Monday:'Off',Tuesday:'Off',Wednesday:'Off',Thursday:'Off',Friday:'Off',Saturday:'Off',Sunday:'Off'}
+    };
+    let state=load();
+    function load(){try{return Object.assign({},defaults,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return structuredClone(defaults)}}
+    function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+    function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+    function today(){const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+    function fmtDate(iso){if(!iso)return'';const [y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
+    function mins(t){const [h,m]=t.split(':').map(Number);return h*60+m}
+    function startMinutes(shift){if(!shift||shift==='Off')return 24*60; const m=shift.match(/^(\d{2}):(\d{2})/);return m?+m[1]*60 + +m[2]:24*60}
+    function mondayOf(iso){
+      const [y,m,d]=iso.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d));const dow=dt.getUTCDay()||7;dt.setUTCDate(dt.getUTCDate()-dow+1);return dt.toISOString().slice(0,10);
+    }
+    function addDays(iso,n){const [y,m,d]=iso.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d));dt.setUTCDate(dt.getUTCDate()+n);return dt.toISOString().slice(0,10)}
+    function diffWeeks(a,b){const A=Date.parse(a+'T00:00:00Z'),B=Date.parse(b+'T00:00:00Z');return Math.floor((B-A)/604800000)}
+    function currentWeekMonday(){
+      const t=today(); const nowMon=mondayOf(t);
+      if(nowMon < state.academyStart) return state.academyStart;
+      return nowMon;
+    }
+    function sessionsInWeek(mon){const end=addDays(mon,7);return state.training.filter(x=>x.date>=mon&&x.date<end)}
+    function weekResult(mon){
+      const s=sessionsInWeek(mon); const combat=s.filter(x=>['Muay Thai','Boxing','No-Gi','MMA'].includes(x.discipline));
+      const striking=combat.some(x=>['Muay Thai','Boxing'].includes(x.discipline));
+      const grappling=combat.some(x=>x.discipline==='No-Gi');
+      const extra=combat.length>=3;
+      const strength=s.some(x=>x.discipline==='Strength');
+      const recovery=s.some(x=>['Yoga','Pilates'].includes(x.discipline));
+      const done=[striking,grappling,extra,strength].filter(Boolean).length;
+      const pass=done===4;
+      let grade=done<=1?'F':done===2?'D':done===3?'C':'B';
+      if(pass&&recovery)grade='A';
+      if(pass&&recovery&&s.filter(x=>!['Yoga','Pilates'].includes(x.discipline)).length>=5)grade='S';
+      return {s,combat,striking,grappling,extra,strength,recovery,done,pass,grade};
+    }
+    function completedWeeks(){
+      if(!state.cwiComplete)return[];
+      const start=state.academyStart, current=currentWeekMonday(); const n=Math.max(0,diffWeeks(start,current));
+      const arr=[];for(let i=0;i<n;i++){const mon=addDays(start,i*7);arr.push({mon,...weekResult(mon)})} return arr;
+    }
+    function passedCount(){return completedWeeks().filter(w=>w.pass).length}
+    function rankInfo(p){
+      if(p>=24)return {name:'Academy Graduate',seal:'AG',next:24,prev:24};
+      if(p>=16)return {name:'Senior Fighter',seal:'SF',next:24,prev:16};
+      if(p>=12)return {name:'Fighter',seal:'F',next:16,prev:12};
+      if(p>=8)return {name:'Operator',seal:'O',next:12,prev:8};
+      if(p>=4)return {name:'Recruit',seal:'R',next:8,prev:4};
+      return {name:'Cadet',seal:'C',next:4,prev:0};
+    }
+    function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
+    function go(id){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+      document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(g.dataset.go);const t=e.target.closest('[data-tab]');if(t)go(t.dataset.tab)});
+    document.getElementById('shadowDate').value=today();document.getElementById('trainingDate').value=today();
+
+    function renderHome(){
+      const sel=!state.cwiComplete;
+      document.getElementById('academyHome').style.display=sel?'none':'block';
+      document.getElementById('selectionHome').style.display=sel?'block':'none';
+      if(sel){
+        const hrs=state.shadow.reduce((a,x)=>a+(+x.hours||0),0), target=Math.max(1,+state.shadowTarget||1);
+        const pct=Math.min(100,state.shadow.length/target*100);
+        phaseEyebrow.textContent='PHASE 0 · SELECTION';phaseTitle.textContent='EARN THE CWI';
+        phaseSub.textContent='Complete your CWI shadowing and assessment to unlock Fightzone Academy training.';
+        heroProgress.style.width=pct+'%';heroProgressText.textContent=`${state.shadow.length} of ${target} shadow sessions logged`;
+        statA.textContent=state.shadow.length;statALabel.textContent='Shadow sessions';statB.textContent=hrs.toFixed(hrs%1?1:0)+'h';statBLabel.textContent='Shadow hours';statC.textContent='LOCKED';statCLabel.textContent='Fightzone';
+        shadowBadge.textContent=state.shadow.length+' logged';assessmentBadge.textContent='NEXT';fightzoneBadge.textContent='LOCKED';
+      }else{
+        const mon=currentWeekMonday(), w=weekResult(mon), p=passedCount(), r=rankInfo(p);
+        phaseEyebrow.textContent='ACADEMY ACTIVE · '+r.name.toUpperCase();phaseTitle.textContent=(state.cadetName?state.cadetName.toUpperCase()+' · ':'')+'WEEK '+(Math.max(0,diffWeeks(state.academyStart,mon))+1);
+        phaseSub.textContent='Complete the four required missions. Recovery is bonus credit.';
+        heroProgress.style.width=(w.done/4*100)+'%';heroProgressText.textContent=`${w.done}/4 required missions complete`;
+        statA.textContent=w.done+'/4';statALabel.textContent='Missions';statB.textContent=w.s.length;statBLabel.textContent='Sessions';statC.textContent=w.grade;statCLabel.textContent='Current grade';
+        weekLabel.textContent=fmtDate(mon)+' – '+fmtDate(addDays(mon,6));
+        const missions=[
+          ['🥊','Striking','1 Boxing or Muay Thai class',w.striking],
+          ['🤼','Grappling','1 No-Gi class',w.grappling],
+          ['🥋','Combat','1 additional combat class',w.extra],
+          ['🏋️','Strength','1 Strength class',w.strength],
+          ['🧘','Recovery Bonus','Yoga or Pilates',w.recovery,'bonus']
+        ];
+        missionList.innerHTML=missions.map(m=>`<div class="mission"><div class="mission-icon">${m[0]}</div><div><h3>${m[1]}</h3><p>${m[2]}</p></div><span class="badge ${m[3]?'done':''} ${m[4]||''}">${m[3]?'COMPLETE':m[4]?'BONUS':'PENDING'}</span></div>`).join('');
+        rankSeal.textContent=r.seal;rankName.textContent=r.name;
+        rankProgressText.textContent=p>=24?'Campaign complete':`${r.next-p} more passed week${r.next-p===1?'':'s'} to next promotion`;
+        const rp=p>=24?100:(p-r.prev)/(r.next-r.prev)*100;rankProgress.style.width=Math.max(0,rp)+'%';
+        passesStat.textContent=p;sessionsStat.textContent=state.training.length;gradeStat.textContent=w.grade;
+      }
+    }
+    function renderSelection(){
+      const sorted=[...state.shadow].sort((a,b)=>b.date.localeCompare(a.date));
+      shadowFeed.innerHTML=sorted.length?sorted.map((x,i)=>`<div class="entry"><div><strong>${fmtDate(x.date)} · ${esc(x.hours)}h</strong><small>${esc(x.notes||'Shadow session')}</small></div><button class="pill" data-del-shadow="${esc(x.id)}">REMOVE</button></div>`).join(''):'<div class="empty">No shadowing logged yet.</div>';
+      const hrs=state.shadow.reduce((a,x)=>a+(+x.hours||0),0);shadowTotalText.textContent=`${state.shadow.length} sessions · ${hrs.toFixed(hrs%1?1:0)}h`;
+      cwiToggle.checked=!!state.cwiComplete;
+      shadowTarget.value=state.shadowTarget;academyStart.value=state.academyStart;cadetName.value=state.cadetName||'';
+    }
+    shadowFeed.addEventListener('click',e=>{const b=e.target.closest('[data-del-shadow]');if(!b)return;state.shadow=state.shadow.filter(x=>x.id!==b.dataset.delShadow);save();renderAll();toast('Shadow session removed')});
+    shadowForm.addEventListener('submit',e=>{e.preventDefault();const hours=Math.max(.25,Math.min(12,+shadowHours.value||0));state.shadow.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),date:shadowDate.value,hours,notes:shadowNotes.value.trim()});save();shadowNotes.value='';renderAll();toast('Shadowing logged')});
+    cwiToggle.addEventListener('change',()=>{if(cwiToggle.checked){if(!confirm('Mark CWI as QUALIFIED and unlock Fightzone Academy?')){cwiToggle.checked=false;return}state.cwiComplete=true;toast('ACADEMY UNLOCKED')}else{if(!confirm('Re-lock Academy training? Your training history will be kept.')){cwiToggle.checked=true;return}state.cwiComplete=false}save();renderAll()});
+
+    function renderLog(){
+      logLocked.style.display=state.cwiComplete?'none':'block';logUnlocked.style.display=state.cwiComplete?'block':'none';logLockLabel.textContent=state.cwiComplete?'Academy active':'CWI required';
+      const sorted=[...state.training].sort((a,b)=>b.date.localeCompare(a.date)||b.created-b.created);
+      trainingFeed.innerHTML=sorted.length?sorted.slice(0,30).map(x=>`<div class="entry"><div><strong class="discipline-${x.discipline.replace(/[\s-]/g,'')}">${esc(x.discipline)} · ${fmtDate(x.date)}</strong><small>${esc(x.level||'')} ${x.duration?`· ${esc(x.duration)} min`:''}${x.notes?`<br>${esc(x.notes)}`:''}</small></div><button class="pill" data-del-training="${esc(x.id)}">REMOVE</button></div>`).join(''):'<div class="empty">No Academy training logged yet.</div>';
+      trainingCountText.textContent=state.training.length+' total';
+    }
+    trainingForm.addEventListener('submit',e=>{e.preventDefault();if(!state.cwiComplete)return;state.training.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),date:trainingDate.value,discipline:discipline.value,level:classLevel.value,duration:+duration.value||60,notes:trainingNotes.value.trim(),created:Date.now()});save();trainingNotes.value='';renderAll();toast('Training logged · mission status updated')});
+    trainingFeed.addEventListener('click',e=>{const b=e.target.closest('[data-del-training]');if(!b)return;state.training=state.training.filter(x=>x.id!==b.dataset.delTraining);save();renderAll();toast('Training entry removed')});
+
+    function renderPlanner(){
+      commuteBuffer.value=state.commuteBuffer;
+      plannerDays.innerHTML=days.map(day=>{
+        const opts=day==='Saturday'?saturdayShifts:day==='Sunday'?sundayShifts:weekdayShifts;
+        return `<div class="planner-day"><div class="planner-top"><strong>${day}</strong><select data-shift-day="${day}">${opts.map(o=>`<option ${state.rota[day]===o?'selected':''}>${o}</option>`).join('')}</select></div><div class="available" id="avail-${day}"></div></div>`;
+      }).join('');
+      renderAvailability();
+    }
+    function renderAvailability(){
+      days.forEach(day=>{
+        const box=document.getElementById('avail-'+day);if(!box)return;
+        const shift=document.querySelector(`[data-shift-day="${day}"]`)?.value||'Off';
+        const cutoff=startMinutes(shift)-(+commuteBuffer.value||0);
+        const list=(timetable[day]||[]).filter(c=>mins(c[1])<=cutoff);
+        box.innerHTML=list.length?list.map(c=>`<div class="classchip"><b>${c[0]}–${c[1]}</b>${esc(c[2])}${['Mixed','Beginners'].includes(c[3])?' · '+c[3]:''}</div>`).join(''):'<span class="tiny muted">No selected classes fit before this shift.</span>';
+      })
+    }
+    plannerDays.addEventListener('change',e=>{if(e.target.matches('[data-shift-day]'))renderAvailability()});
+    commuteBuffer.addEventListener('input',renderAvailability);
+    savePlanner.addEventListener('click',()=>{state.commuteBuffer=Math.max(0,Math.min(120,+commuteBuffer.value||0));document.querySelectorAll('[data-shift-day]').forEach(s=>state.rota[s.dataset.shiftDay]=s.value);save();toast('Rota saved')});
+
+    function renderIntel(){
+      timetableCards.innerHTML=days.map(day=>`<div class="planner-day"><div class="section-title" style="margin-bottom:6px"><h2>${day}</h2><span>${(timetable[day]||[]).length} sessions</span></div><div class="available">${(timetable[day]||[]).map(c=>`<div class="classchip"><b>${c[0]}–${c[1]}</b>${esc(c[2])}${['Mixed','Beginners'].includes(c[3])?' · '+c[3]:''}</div>`).join('')}</div></div>`).join('');
+    }
+    function renderRecords(){
+      recordsLocked.style.display=state.cwiComplete?'none':'block';recordsUnlocked.style.display=state.cwiComplete?'block':'none';if(!state.cwiComplete)return;
+      const weeks=completedWeeks(),pass=weeks.filter(w=>w.pass).length,combat=state.training.filter(x=>['Muay Thai','Boxing','No-Gi','MMA'].includes(x.discipline)).length;
+      recordPasses.textContent=pass;recordRate.textContent=(weeks.length?Math.round(pass/weeks.length*100):0)+'%';recordCombat.textContent=combat;
+      const all=[...weeks].reverse();const current=currentWeekMonday();all.unshift({mon:current,...weekResult(current),current:true});
+      weekHistory.innerHTML=all.map((w,idx)=>{
+        const no=Math.max(1,diffWeeks(state.academyStart,w.mon)+1),assessment=no%4===0;
+        return `<div class="weekcard"><div class="weekhead"><h3>Week ${no}${w.current?' · CURRENT':''}${assessment?' · ASSESSMENT':''}</h3><span class="grade">${w.grade}</span></div><div class="weekmeta"><span class="pill">${w.pass?'PASS':'INCOMPLETE'}</span><span class="pill">${w.s.length} sessions</span><span class="pill">${w.done}/4 missions</span>${w.recovery?'<span class="pill">RECOVERY ★</span>':''}</div></div>`;
+      }).join('');
+    }
+    saveSettings.addEventListener('click',()=>{state.shadowTarget=Math.max(1,Math.min(100,+shadowTarget.value||6));state.academyStart=mondayOf(academyStart.value||today());state.cadetName=cadetName.value.trim();save();renderAll();toast('Settings saved')});
+    exportBtn.addEventListener('click',()=>{
+      const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='combat-academy-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('Backup exported');
+    });
+    resetBtn.addEventListener('click',()=>{if(!confirm('Reset ALL Combat Academy data on this device?'))return;localStorage.removeItem(KEY);state=structuredClone(defaults);renderAll();toast('Academy data reset')});
+    function renderAll(){renderHome();renderSelection();renderLog();renderPlanner();renderIntel();renderRecords()}
+    renderAll();
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+  })();
+  </script>
+</body>
+</html>
