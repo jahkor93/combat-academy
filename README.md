@@ -1,21 +1,18 @@
-# Combat & Survival Academy
+# Combat & Survival Academy — v2
 
-A personal installable Progressive Web App (PWA).
+Personal installable PWA for weekly combat-training missions, class logging, rota planning and progress tracking.
 
-## Run / install
-A PWA needs to be served from HTTPS (or localhost). The simplest routes are:
-1. Upload this folder to a static host such as GitHub Pages, Netlify, Cloudflare Pages, or similar.
-2. Open the HTTPS site on your phone.
-3. Android/Chrome: menu → Add to Home screen / Install app.
-4. iPhone/Safari: Share → Add to Home Screen.
+## v2 changes
+- CWI selection/locking removed; the Academy is active immediately.
+- Timetable replaced with the new academy schedule (selected sessions up to 3pm).
+- Weekly missions are now:
+  1. Striking — Muay Thai or Boxing
+  2. Grappling — No-Gi, Wrestling or Open Mat
+  3. Combat — one additional martial-arts session
+  4. Physical Prep — S&C Circuit, Move Strong, Bags & Bells, Bags & HIIT, or Kickboxing & HIIT
+- HIIT Circuit and restricted/advanced Muay Thai sessions are excluded from the planner.
+- Existing local progress is preserved by keeping the original localStorage key and migrating it to v2.
+- Service-worker cache bumped to `csa-v2` so installed apps can receive the update.
 
-Progress is stored in your browser on that device using localStorage.
-Use Settings → Export Backup to save a JSON backup.
-
-## Current rules
-- Phase 0: CWI shadowing + qualification.
-- CWI qualification unlocks Academy training.
-- Weekly pass: 1 Striking + 1 No-Gi + 1 additional combat + 1 Strength.
-- Yoga/Pilates = Recovery Bonus.
-- Every 4th academy week is an Assessment Week.
-- Fightzone timetable includes the selected sessions up to 3pm discussed in chat.
+## Install/update
+Host these files together over HTTPS (for example GitHub Pages). If updating an existing install, replace the existing files in the same repository, wait for Pages to redeploy, then fully close and reopen the installed app. If it still shows the old UI, open the site once in Chrome and refresh, then reopen the app.
