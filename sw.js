@@ -1,4 +1,4 @@
-const CACHE="csa-v3";
+const CACHE="csa-v3.1";
 const ASSETS=[
   './','./index.html','./manifest.json','./icon-192.png','./icon-512.png',
   './gamaken_stage1.png','./gamaken_stage2.png','./gamaken_stage3.png','./gamaken_stage4.png','./gamaken_stage5.png','./gamaken_stage6.png',

@@ -1,0 +1,1 @@
+Replace these files in your GitHub repo to fix the Gamaken evolution image crops. This package includes recropped stage images and a bumped service worker cache (csa-v3.1) so the installed app refreshes the assets.
