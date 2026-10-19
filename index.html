@@ -3,57 +3,117 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#111827">
+  <meta name="theme-color" content="#24163E">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Combat Academy">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <title>Combat & Survival Academy</title>
+  <title>Combat &amp; Survival Academy · Gamaken v3</title>
   <style>
     :root{
-      --bg:#0a0f16; --panel:#111925; --panel2:#172231; --line:#263548;
-      --text:#f4f7fb; --muted:#9fb0c5; --accent:#d5ff4b; --accent2:#7dd3fc;
-      --good:#6ee7a8; --warn:#fbbf24; --danger:#fb7185; --purple:#c084fc;
-      --shadow:0 12px 32px rgba(0,0,0,.22);
+      --bg:#110f17; --bg2:#181222; --panel:#1a1630; --panel2:#241b42; --line:#3a3162;
+      --text:#f6f1fb; --muted:#bcaed4; --accent:#62d46b; --accent2:#8ef0a0;
+      --purple:#5B3CC4; --purple2:#9163e6; --purple3:#c6a9ff; --good:#7ef0a8; --warn:#f2cf6a; --danger:#ff8faa;
+      --shadow:0 14px 34px rgba(0,0,0,.28);
     }
     *{box-sizing:border-box}
     html{background:var(--bg)}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 85% 0%,rgba(213,255,75,.10),transparent 24rem),var(--bg);color:var(--text);min-height:100vh}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 85% 0%,rgba(98,212,107,.13),transparent 22rem),
+      radial-gradient(circle at 5% 10%,rgba(145,99,230,.18),transparent 20rem),
+      linear-gradient(180deg,#110f17,#161126 50%,#100e16);
+      color:var(--text);min-height:100vh}
     button,input,select,textarea{font:inherit} button{cursor:pointer}
     .app{max-width:760px;margin:0 auto;padding:18px 14px 96px}
     .brand{display:flex;align-items:center;gap:12px;margin:4px 2px 18px}
-    .crest{width:48px;height:48px;border:1px solid #405169;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#172231,#0e151f);box-shadow:var(--shadow);font-weight:900;color:var(--accent);letter-spacing:-1px}
-    .brand h1{font-size:20px;margin:0;line-height:1.05;letter-spacing:.04em}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .crestimg{width:52px;height:52px;border-radius:16px;border:1px solid rgba(198,169,255,.28);box-shadow:var(--shadow);background:#140f22;display:block}
+    .brand h1{font-size:20px;margin:0;line-height:1.05;letter-spacing:.04em}
+    .brand p{margin:4px 0 0;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
     .screen{display:none}.screen.active{display:block}
-    .hero{border:1px solid var(--line);border-radius:22px;padding:18px;background:linear-gradient(145deg,rgba(23,34,49,.96),rgba(13,20,30,.96));box-shadow:var(--shadow);position:relative;overflow:hidden}
-    .hero:after{content:"";position:absolute;width:140px;height:140px;border:22px solid rgba(213,255,75,.05);border-radius:50%;right:-54px;top:-52px}
-    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:800}.phase-title{font-size:29px;line-height:1;margin:9px 0 7px;letter-spacing:-.03em}.sub{color:var(--muted);font-size:14px;line-height:1.5}
-    .progress{height:10px;border-radius:99px;background:#0a111a;border:1px solid #223144;overflow:hidden;margin:16px 0 8px}.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#b8e534);width:0%;transition:width .25s}
-    .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}.stat{padding:12px;border-radius:16px;background:#0d151f;border:1px solid #223144;min-width:0}.stat b{display:block;font-size:20px}.stat span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-    .section{margin-top:18px}.section-title{display:flex;justify-content:space-between;gap:10px;align-items:end;margin:0 3px 9px}.section-title h2{font-size:15px;margin:0;letter-spacing:.08em;text-transform:uppercase}.section-title span{color:var(--muted);font-size:12px}
-    .card{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:14px;box-shadow:var(--shadow)}
-    .mission{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #223144}.mission:last-child{border-bottom:0}.mission-icon{width:42px;height:42px;border-radius:13px;background:#0c141e;border:1px solid #27384e;display:grid;place-items:center;font-size:20px}.mission h3{margin:0 0 2px;font-size:15px}.mission p{margin:0;color:var(--muted);font-size:12px}
-    .badge{border-radius:99px;padding:6px 9px;font-size:11px;font-weight:800;background:#243247;color:#c7d2e1;white-space:nowrap}.badge.done{background:rgba(110,231,168,.13);color:var(--good);border:1px solid rgba(110,231,168,.3)}
-    .btn{border:0;border-radius:14px;padding:13px 15px;font-weight:850;background:var(--accent);color:#111827;min-height:46px}.btn.secondary{background:#1b293a;color:var(--text);border:1px solid #31445c}.btn.danger{background:rgba(251,113,133,.13);color:#fecdd3;border:1px solid rgba(251,113,133,.3)}.btn:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}.actions .btn{flex:1}
-    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;color:#c8d3e0;font-size:12px;font-weight:750;margin:0 0 6px}input,select,textarea{width:100%;border:1px solid #304157;background:#0c141e;color:var(--text);border-radius:12px;padding:12px;min-height:46px;outline:none}textarea{min-height:82px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#6b839f;box-shadow:0 0 0 3px rgba(125,211,252,.08)}.full{grid-column:1/-1}
-    .notice{padding:12px 13px;border-radius:14px;background:rgba(125,211,252,.07);border:1px solid rgba(125,211,252,.22);color:#d8edf8;font-size:13px;line-height:1.45}
-    .feed{display:flex;flex-direction:column;gap:8px}.entry{display:grid;grid-template-columns:1fr auto;gap:9px;border:1px solid #263548;background:#0e1621;border-radius:14px;padding:11px 12px}.entry strong{font-size:13px}.entry small{display:block;color:var(--muted);margin-top:3px;line-height:1.35}.entry .pill{align-self:start}.pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#1d2a3a;color:#c9d6e5;font-weight:800}
-    .discipline-MuayThai{color:#fb923c}.discipline-Boxing{color:#fb7185}.discipline-NoGi{color:#60a5fa}.discipline-MMA{color:#c084fc}.discipline-Wrestling{color:#2dd4bf}.discipline-OpenMat{color:#38bdf8}.discipline-SCCircuit,.discipline-MoveStrong,.discipline-BagsBells,.discipline-BagsHIIT,.discipline-KickboxingHIIT{color:#a3e635}
-    .planner-day{border:1px solid #263548;border-radius:16px;padding:12px;background:#0e1621;margin-bottom:10px}.planner-top{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center}.planner-top strong{font-size:13px;text-transform:uppercase;letter-spacing:.08em}.available{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}.classchip{padding:8px 9px;border:1px solid #31435a;background:#121e2b;border-radius:12px;font-size:11px;color:#d8e2ee}.classchip b{display:block;color:#fff;font-size:12px;margin-bottom:2px}.classchip small{display:block;color:var(--muted);margin-top:2px}
-    .weekcard{border:1px solid #263548;border-radius:16px;background:#0e1621;padding:12px;margin-bottom:9px}.weekhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.weekhead h3{margin:0;font-size:14px}.grade{font-weight:950;font-size:19px;color:var(--accent)}.weekmeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
-    .tabbar{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(730px,calc(100% - 18px));display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:7px;background:rgba(10,15,22,.92);backdrop-filter:blur(12px);border:1px solid #27384c;border-radius:20px;z-index:20;box-shadow:var(--shadow)}.tabbar button{border:0;background:transparent;color:#92a4b8;border-radius:14px;min-height:48px;padding:6px 2px;font-size:10px;font-weight:800}.tabbar button span{display:block;font-size:18px;margin-bottom:2px}.tabbar button.active{background:#1b293a;color:var(--accent)}
-    .rankline{display:flex;align-items:center;gap:10px;margin-top:12px}.rankseal{width:56px;height:56px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-weight:950;background:#0c141e}.rankline h3{margin:0;font-size:18px}.rankline p{margin:3px 0 0;color:var(--muted);font-size:12px}.divider{height:1px;background:#223144;margin:12px 0}.muted{color:var(--muted)}.tiny{font-size:11px}.empty{text-align:center;color:var(--muted);font-size:13px;padding:20px 8px}
-    .toast{position:fixed;left:50%;top:12px;transform:translateX(-50%);background:#172231;color:#fff;border:1px solid #3a5068;border-radius:12px;padding:10px 14px;z-index:30;box-shadow:var(--shadow);display:none;font-size:13px;max-width:calc(100% - 28px)}.toast.show{display:block}
-    @media(max-width:480px){.app{padding-left:10px;padding-right:10px}.phase-title{font-size:25px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.statrow{gap:6px}.stat{padding:10px 8px}.stat b{font-size:17px}.planner-top{grid-template-columns:82px 1fr}}
+    .hero,.card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,rgba(36,27,66,.96),rgba(22,18,37,.98));box-shadow:var(--shadow)}
+    .hero{padding:18px;position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:170px;height:170px;border:24px solid rgba(98,212,107,.08);border-radius:50%;right:-70px;top:-60px}
+    .hero:before{content:"";position:absolute;width:130px;height:130px;background:radial-gradient(circle,rgba(198,169,255,.13),transparent 70%);left:-40px;bottom:-35px}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);font-weight:800}
+    .phase-title{font-size:29px;line-height:1;margin:9px 0 7px;letter-spacing:-.03em}
+    .sub{color:var(--muted);font-size:14px;line-height:1.5}
+    .progress{height:10px;border-radius:99px;background:#130f20;border:1px solid #31254c;overflow:hidden;margin:16px 0 8px}
+    .progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .25s}
+    .progress.purple>span{background:linear-gradient(90deg,var(--purple2),var(--accent))}
+    .statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
+    .stat{padding:12px;border-radius:16px;background:#151126;border:1px solid #31254c;min-width:0}
+    .stat b{display:block;font-size:20px}.stat span{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .section{margin-top:18px}
+    .section-title{display:flex;justify-content:space-between;gap:10px;align-items:end;margin:0 3px 9px}
+    .section-title h2{font-size:15px;margin:0;letter-spacing:.08em;text-transform:uppercase}.section-title span{color:var(--muted);font-size:12px}
+    .card{padding:14px}
+    .mission{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #31254c}.mission:last-child{border-bottom:0}
+    .mission-icon{width:42px;height:42px;border-radius:13px;background:#120f20;border:1px solid #3d3160;display:grid;place-items:center;font-size:20px}
+    .mission h3{margin:0 0 2px;font-size:15px}.mission p{margin:0;color:var(--muted);font-size:12px}
+    .badge{border-radius:99px;padding:6px 9px;font-size:11px;font-weight:800;background:#2d2550;color:#e7ddff;white-space:nowrap}
+    .badge.done{background:rgba(98,212,107,.12);color:var(--good);border:1px solid rgba(98,212,107,.28)}
+    .btn{border:0;border-radius:14px;padding:13px 15px;font-weight:850;background:var(--accent);color:#161322;min-height:46px}
+    .btn.secondary{background:#201935;color:var(--text);border:1px solid #3b3060}.btn.danger{background:rgba(255,143,170,.12);color:#ffd5df;border:1px solid rgba(255,143,170,.28)}.btn:disabled{opacity:.45;cursor:not-allowed}
+    .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}.actions .btn{flex:1}
+    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    label{display:block;color:#ded4f0;font-size:12px;font-weight:750;margin:0 0 6px}
+    input,select,textarea{width:100%;border:1px solid #443566;background:#130f20;color:var(--text);border-radius:12px;padding:12px;min-height:46px;outline:none}
+    textarea{min-height:82px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#8ef0a0;box-shadow:0 0 0 3px rgba(98,212,107,.08)}.full{grid-column:1/-1}
+    .notice{padding:12px 13px;border-radius:14px;background:rgba(145,99,230,.10);border:1px solid rgba(198,169,255,.24);color:#f0eaff;font-size:13px;line-height:1.45}
+    .feed{display:flex;flex-direction:column;gap:8px}.entry{display:grid;grid-template-columns:1fr auto;gap:9px;border:1px solid #31254c;background:#171225;border-radius:14px;padding:11px 12px}.entry strong{font-size:13px}.entry small{display:block;color:var(--muted);margin-top:3px;line-height:1.35}.entry .pill{align-self:start}
+    .pill{font-size:10px;padding:5px 8px;border-radius:99px;background:#271f43;color:#ddd3f1;font-weight:800}
+    .discipline-MuayThai{color:#fdbb74}.discipline-Boxing{color:#ffa0b1}.discipline-NoGi{color:#84c5ff}.discipline-MMA{color:#d8a4ff}.discipline-Wrestling{color:#73efdd}.discipline-OpenMat{color:#7cdcff}.discipline-SCCircuit,.discipline-MoveStrong,.discipline-BagsBells,.discipline-BagsHIIT,.discipline-KickboxingHIIT{color:#b9ff66}
+    .planner-day{border:1px solid #31254c;border-radius:16px;padding:12px;background:#171225;margin-bottom:10px}
+    .planner-top{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center}.planner-top strong{font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+    .available{margin-top:10px;display:flex;flex-wrap:wrap;gap:7px}
+    .classchip{padding:8px 9px;border:1px solid #40325f;background:#120f20;border-radius:12px;font-size:11px;color:#efe8fb}.classchip b{display:block;color:#fff;font-size:12px;margin-bottom:2px}.classchip small{display:block;color:var(--muted);margin-top:2px}
+    .weekcard{border:1px solid #31254c;border-radius:16px;background:#171225;padding:12px;margin-bottom:9px}.weekhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.weekhead h3{margin:0;font-size:14px}.grade{font-weight:950;font-size:19px;color:var(--accent)}.weekmeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+    .tabbar{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(730px,calc(100% - 18px));display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:7px;background:rgba(16,13,24,.94);backdrop-filter:blur(12px);border:1px solid #3b3060;border-radius:20px;z-index:20;box-shadow:var(--shadow)}
+    .tabbar button{border:0;background:transparent;color:#ab9fc8;border-radius:14px;min-height:48px;padding:6px 2px;font-size:10px;font-weight:800}.tabbar button span{display:block;font-size:18px;margin-bottom:2px}.tabbar button.active{background:#251d3d;color:var(--accent)}
+    .rankline{display:flex;align-items:center;gap:10px;margin-top:12px}.rankseal{width:56px;height:56px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;color:var(--accent);font-weight:950;background:#130f20}.rankline h3{margin:0;font-size:18px}.rankline p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .muted{color:var(--muted)}.tiny{font-size:11px}.empty{text-align:center;color:var(--muted);font-size:13px;padding:20px 8px}
+    .toast{position:fixed;left:50%;top:12px;transform:translateX(-50%);background:#241b42;color:#fff;border:1px solid #5f4f8c;border-radius:12px;padding:10px 14px;z-index:30;box-shadow:var(--shadow);display:none;font-size:13px;max-width:calc(100% - 28px)}.toast.show{display:block}
+
+    .companion-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;align-items:start}
+    .companion-panel{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border:1px solid #3a2f57;border-radius:18px;padding:12px}
+    .companion-art{width:100%;border-radius:16px;display:block;background:#efe7d9;object-fit:cover;box-shadow:var(--shadow)}
+    .companion-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+    .companion-head h3{margin:0;font-size:24px;line-height:1}.companion-subtitle{color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+    .mood-pill{padding:7px 10px;border-radius:99px;border:1px solid #4b3d72;background:#1b1530;font-size:11px;font-weight:800;white-space:nowrap}
+    .mood-calm{color:#ddd3f3}.mood-inspired{color:#b6ff70;border-color:rgba(98,212,107,.35);background:rgba(98,212,107,.11)}.mood-resting{color:#f1d8ff;border-color:rgba(198,169,255,.28);background:rgba(198,169,255,.10)}
+    .companion-form{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:#171225;border:1px solid #3b3060;font-weight:800;font-size:12px;margin:10px 0 8px}
+    .quote{font-size:15px;line-height:1.55;color:#f0ebfb;margin:0 0 12px}
+    .xp-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:#ddd3f3;margin-top:10px}
+    .companion-next{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4}
+    .mood-card{display:grid;grid-template-columns:84px 1fr;gap:10px;align-items:center;padding:10px;border-radius:16px;border:1px solid #3a2f57;background:#171225;margin-top:10px}
+    .mood-card img{width:84px;height:84px;border-radius:14px;object-fit:cover;background:#efe7d9}
+    .mood-card b{display:block;font-size:14px;margin-bottom:4px}
+    .stage-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
+    .stage-dot{padding:6px;border-radius:14px;border:1px solid #3a2f57;background:#171225;text-align:center}
+    .stage-dot.active{border-color:rgba(98,212,107,.45);box-shadow:0 0 0 2px rgba(98,212,107,.12) inset}
+    .stage-dot img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;background:#efe7d9;display:block}
+    .stage-dot small{display:block;margin-top:5px;color:#d8cff0;font-size:10px;font-weight:800;line-height:1.1}
+    .companion-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+    .companion-mini .mini{padding:8px;border-radius:14px;background:#171225;border:1px solid #3a2f57;text-align:center}
+    .companion-mini b{display:block;font-size:12px;margin-bottom:3px}.companion-mini span{color:var(--muted);font-size:11px}
+    @media(max-width:560px){
+      .companion-wrap{grid-template-columns:1fr}
+      .mood-card{grid-template-columns:72px 1fr}.mood-card img{width:72px;height:72px}
+      .stage-strip{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:480px){
+      .app{padding-left:10px;padding-right:10px}.phase-title{font-size:25px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.statrow{gap:6px}.stat{padding:10px 8px}.stat b{font-size:17px}.planner-top{grid-template-columns:82px 1fr}
+      .companion-head h3{font-size:21px}
+    }
   </style>
 </head>
 <body>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <main class="app">
     <header class="brand">
-      <div class="crest">CSA</div>
-      <div><h1>COMBAT &amp; SURVIVAL<br>ACADEMY</h1><p>Personal training command</p></div>
+      <img src="icon-192.png" alt="Combat Academy icon" class="crestimg">
+      <div><h1>COMBAT &amp; SURVIVAL<br>ACADEMY</h1><p>Gamaken companion protocol</p></div>
     </header>
 
     <section id="home" class="screen active">
@@ -71,6 +131,41 @@
       </div>
 
       <div class="section">
+        <div class="section-title"><h2>Gamaken</h2><span>Companion evolution system</span></div>
+        <div class="card">
+          <div class="companion-wrap">
+            <div class="companion-panel">
+              <img id="companionStageArt" class="companion-art" src="gamaken_stage1.png" alt="Gamaken evolution stage">
+              <div class="stage-strip" id="stageStrip"></div>
+            </div>
+            <div>
+              <div class="companion-head">
+                <div>
+                  <h3>Gamaken</h3>
+                  <div class="companion-subtitle" id="companionRankLine">Linked to your academy rank</div>
+                </div>
+                <span class="mood-pill mood-calm" id="companionMood">Calm</span>
+              </div>
+              <div class="companion-form" id="companionForm">Pond Initiate</div>
+              <p class="quote" id="companionSpeech">Steady practice builds the warrior.</p>
+              <div class="xp-head"><span>Companion XP</span><strong id="companionXpText">0 / 100 XP</strong></div>
+              <div class="progress purple"><span id="companionXpProgress"></span></div>
+              <div class="companion-next" id="companionNextText"></div>
+              <div class="mood-card">
+                <img id="companionMoodArt" src="gamaken_calm.png" alt="Gamaken mood illustration">
+                <div><b id="companionMoodTitle">Calm</b><span id="companionMoodNote" class="sub">Focused. Grounded. Disciplined.</span></div>
+              </div>
+              <div class="companion-mini">
+                <div class="mini"><b id="miniRank">Cadet</b><span>Academy rank</span></div>
+                <div class="mini"><b id="miniPasses">0</b><span>Passed weeks</span></div>
+                <div class="mini"><b id="miniFormNo">1 / 6</b><span>Evolution stage</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
         <div class="section-title"><h2>Weekly Orders</h2><span id="weekLabel"></span></div>
         <div class="card" id="missionList"></div>
       </div>
@@ -79,7 +174,7 @@
         <div class="section-title"><h2>Academy Rank</h2><span>24-pass campaign</span></div>
         <div class="card">
           <div class="rankline"><div class="rankseal" id="rankSeal">C</div><div><h3 id="rankName">Cadet</h3><p id="rankProgressText"></p></div></div>
-          <div class="progress"><span id="rankProgress"></span></div>
+          <div class="progress purple"><span id="rankProgress"></span></div>
           <div class="statrow">
             <div class="stat"><b id="passesStat">0</b><span>Passed weeks</span></div>
             <div class="stat"><b id="sessionsStat">0</b><span>Total sessions</span></div>
@@ -161,6 +256,12 @@
       </div>
       <div class="section">
         <div class="card">
+          <strong>Gamaken evolution map</strong>
+          <p class="sub">Cadet → <b>Pond Initiate</b><br>Recruit → <b>Temple Novice</b><br>Operator → <b>Dojo Disciple</b><br>Fighter → <b>Warrior Monk</b><br>Senior Fighter → <b>Shrine Guardian</b><br>Academy Graduate → <b>Sage of the Academy</b></p>
+        </div>
+      </div>
+      <div class="section">
+        <div class="card">
           <strong>Mission categories</strong>
           <p class="sub"><b>Striking:</b> Muay Thai or Boxing.<br><b>Grappling:</b> No-Gi, Wrestling or Open Mat.<br><b>Combat:</b> Muay Thai, Boxing, MMA, No-Gi, Wrestling or Open Mat.<br><b>Physical Prep:</b> S&amp;C Circuit, Move Strong, Bags &amp; Bells, Bags &amp; HIIT or Kickboxing &amp; HIIT.</p>
         </div>
@@ -171,7 +272,7 @@
           <div class="actions"><button class="btn secondary" id="exportBtn" type="button">EXPORT BACKUP</button><button class="btn danger" id="resetBtn" type="button">RESET ALL DATA</button></div>
         </div>
       </div>
-      <div class="section"><div class="tiny muted" style="text-align:center">Combat &amp; Survival Academy · v2 · timetable updated 19 Oct 2026</div></div>
+      <div class="section"><div class="tiny muted" style="text-align:center">Combat &amp; Survival Academy · v3 · Gamaken visual update</div></div>
     </section>
   </main>
 
@@ -186,8 +287,8 @@
 
   <script>
   (() => {
-    const KEY='csa_v1'; // keep the original key so existing progress survives the upgrade
-    const VERSION=2;
+    const KEY='csa_v1'; // keep original key so progress survives upgrades
+    const VERSION=3;
     const weekdayShifts=['Off','07:30–15:00','12:00–20:00','15:00–21:00','16:00–22:30'];
     const saturdayShifts=['Off','08:30–15:00','09:00–16:30','11:00–18:00','14:30–20:30'];
     const sundayShifts=['Off','14:30–22:30'];
@@ -197,49 +298,27 @@
     const strikingDisciplines=['Muay Thai','Boxing'];
     const physicalDisciplines=['S&C Circuit','Move Strong','Bags & Bells','Bags & HIIT','Kickboxing & HIIT'];
     const timetable={
-      Monday:[
-        {start:'07:15',end:'08:00',name:'Kickboxing & HIIT',type:'Physical Prep'},
-        {start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}
-      ],
-      Tuesday:[
-        {start:'07:15',end:'08:00',name:'Bags & HIIT',type:'Physical Prep'},
-        {start:'11:00',end:'12:00',name:'Boxing',type:'All Levels'},
-        {start:'12:00',end:'13:00',name:'Bags & Bells',type:'Physical Prep'}
-      ],
-      Wednesday:[
-        {start:'12:00',end:'13:00',name:'Bags & HIIT',type:'Physical Prep'},
-        {start:'12:30',end:'13:30',name:'No-Gi',type:'All Levels'}
-      ],
-      Thursday:[
-        {start:'07:15',end:'08:00',name:'Bags & HIIT',type:'Physical Prep'},
-        {start:'11:00',end:'12:00',name:'Boxing',type:'All Levels'},
-        {start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}
-      ],
-      Friday:[
-        {start:'07:15',end:'08:00',name:'S&C Circuit',type:'Physical Prep'},
-        {start:'09:30',end:'10:30',name:'Bags & HIIT',type:'Physical Prep'},
-        {start:'11:00',end:'12:00',name:'Move Strong',type:'Physical Prep'},
-        {start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'},
-        {start:'12:00',end:'13:00',name:'No-Gi',type:'All Levels'}
-      ],
-      Saturday:[
-        {start:'09:00',end:'10:00',name:'Boxing',type:'All Levels'},
-        {start:'10:00',end:'11:00',name:'Wrestling',type:'All Levels'},
-        {start:'10:00',end:'11:00',name:'Bags & Bells',type:'Physical Prep'},
-        {start:'11:00',end:'12:00',name:'S&C Circuit',type:'Physical Prep'},
-        {start:'12:00',end:'13:00',name:'Move Strong',type:'Physical Prep'},
-        {start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}
-      ],
-      Sunday:[
-        {start:'09:30',end:'10:30',name:'Bags & HIIT',type:'Physical Prep'},
-        {start:'10:30',end:'11:30',name:'Move Strong',type:'Physical Prep'},
-        {start:'11:00',end:'12:00',name:'Muay Thai',type:'All Levels'},
-        {start:'12:00',end:'13:00',name:'Open Mat',type:'BJJ Gi & No-Gi sparring'}
-      ]
+      Monday:[{start:'07:15',end:'08:00',name:'Kickboxing & HIIT',type:'Physical Prep'},{start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}],
+      Tuesday:[{start:'07:15',end:'08:00',name:'Bags & HIIT',type:'Physical Prep'},{start:'11:00',end:'12:00',name:'Boxing',type:'All Levels'},{start:'12:00',end:'13:00',name:'Bags & Bells',type:'Physical Prep'}],
+      Wednesday:[{start:'12:00',end:'13:00',name:'Bags & HIIT',type:'Physical Prep'},{start:'12:30',end:'13:30',name:'No-Gi',type:'All Levels'}],
+      Thursday:[{start:'07:15',end:'08:00',name:'Bags & HIIT',type:'Physical Prep'},{start:'11:00',end:'12:00',name:'Boxing',type:'All Levels'},{start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}],
+      Friday:[{start:'07:15',end:'08:00',name:'S&C Circuit',type:'Physical Prep'},{start:'09:30',end:'10:30',name:'Bags & HIIT',type:'Physical Prep'},{start:'11:00',end:'12:00',name:'Move Strong',type:'Physical Prep'},{start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'},{start:'12:00',end:'13:00',name:'No-Gi',type:'All Levels'}],
+      Saturday:[{start:'09:00',end:'10:00',name:'Boxing',type:'All Levels'},{start:'10:00',end:'11:00',name:'Wrestling',type:'All Levels'},{start:'10:00',end:'11:00',name:'Bags & Bells',type:'Physical Prep'},{start:'11:00',end:'12:00',name:'S&C Circuit',type:'Physical Prep'},{start:'12:00',end:'13:00',name:'Move Strong',type:'Physical Prep'},{start:'12:00',end:'13:00',name:'Muay Thai',type:'All Levels'}],
+      Sunday:[{start:'09:30',end:'10:30',name:'Bags & HIIT',type:'Physical Prep'},{start:'10:30',end:'11:30',name:'Move Strong',type:'Physical Prep'},{start:'11:00',end:'12:00',name:'Muay Thai',type:'All Levels'},{start:'12:00',end:'13:00',name:'Open Mat',type:'BJJ Gi & No-Gi sparring'}]
     };
-    const defaults={
-      appVersion:VERSION,training:[],academyStart:'2026-10-19',cadetName:'',commuteBuffer:45,
-      rota:{Monday:'Off',Tuesday:'Off',Wednesday:'Off',Thursday:'Off',Friday:'Off',Saturday:'Off',Sunday:'Off'}
+    const defaults={appVersion:VERSION,training:[],academyStart:'2026-10-19',cadetName:'',commuteBuffer:45,rota:{Monday:'Off',Tuesday:'Off',Wednesday:'Off',Thursday:'Off',Friday:'Off',Saturday:'Off',Sunday:'Off'}};
+    const forms=[
+      {rank:'Cadet',title:'Pond Initiate',img:'gamaken_stage1.png',no:1,min:0},
+      {rank:'Recruit',title:'Temple Novice',img:'gamaken_stage2.png',no:2,min:4},
+      {rank:'Operator',title:'Dojo Disciple',img:'gamaken_stage3.png',no:3,min:8},
+      {rank:'Fighter',title:'Warrior Monk',img:'gamaken_stage4.png',no:4,min:12},
+      {rank:'Senior Fighter',title:'Shrine Guardian',img:'gamaken_stage5.png',no:5,min:16},
+      {rank:'Academy Graduate',title:'Sage of the Academy',img:'gamaken_stage6.png',no:6,min:24}
+    ];
+    const moodMeta={
+      Calm:{label:'Calm',img:'gamaken_calm.png',note:'Focused. Grounded. Disciplined.',quote:'Steady practice builds the warrior.'},
+      Inspired:{label:'Inspired',img:'gamaken_inspired.png',note:'Bright-eyed. Energized. Excited in a controlled way.',quote:'The dojo spirit is rising — keep moving.'},
+      Resting:{label:'Resting',img:'gamaken_resting.png',note:'Sleepy. Low-energy. Gently droopy, but still ready to return.',quote:'A small session is enough to restart the path.'}
     };
     let state=load();
 
@@ -269,6 +348,7 @@
     function mondayOf(iso){const [y,m,d]=iso.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d));const dow=dt.getUTCDay()||7;dt.setUTCDate(dt.getUTCDate()-dow+1);return dt.toISOString().slice(0,10)}
     function addDays(iso,n){const [y,m,d]=iso.split('-').map(Number);const dt=new Date(Date.UTC(y,m-1,d));dt.setUTCDate(dt.getUTCDate()+n);return dt.toISOString().slice(0,10)}
     function diffWeeks(a,b){const A=Date.parse(a+'T00:00:00Z'),B=Date.parse(b+'T00:00:00Z');return Math.floor((B-A)/604800000)}
+    function diffDays(a,b){return Math.floor((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/86400000)}
     function currentWeekMonday(){const nowMon=mondayOf(today());return nowMon<state.academyStart?state.academyStart:nowMon}
     function sessionsInWeek(mon){const end=addDays(mon,7);return state.training.filter(x=>x.date>=mon&&x.date<end)}
     function weekResult(mon){
@@ -288,10 +368,50 @@
     function completedWeeks(){const start=state.academyStart,current=currentWeekMonday(),n=Math.max(0,diffWeeks(start,current));const arr=[];for(let i=0;i<n;i++){const mon=addDays(start,i*7);arr.push({mon,...weekResult(mon)})}return arr}
     function passedCount(){return completedWeeks().filter(w=>w.pass).length}
     function rankInfo(p){if(p>=24)return{name:'Academy Graduate',seal:'AG',next:24,prev:24};if(p>=16)return{name:'Senior Fighter',seal:'SF',next:24,prev:16};if(p>=12)return{name:'Fighter',seal:'F',next:16,prev:12};if(p>=8)return{name:'Operator',seal:'O',next:12,prev:8};if(p>=4)return{name:'Recruit',seal:'R',next:8,prev:4};return{name:'Cadet',seal:'C',next:4,prev:0}}
+    function currentForm(passes){for(let i=forms.length-1;i>=0;i--){if(passes>=forms[i].min)return forms[i]}return forms[0]}
+    function nextForm(passes){for(let i=0;i<forms.length;i++){if(forms[i].min>passes)return forms[i]}return null}
+    function latestTrainingDate(){const arr=[...state.training].sort((a,b)=>b.date.localeCompare(a.date));return arr[0]?.date||''}
+    function companionMood(w){
+      const last=latestTrainingDate();
+      const idle=last?diffDays(last,today()):999;
+      const day=(new Date()).getDay(); // 0 Sun, 1 Mon...
+      if(w.pass||w.grade==='A'||w.grade==='S'||w.s.length>=3||w.done>=3) return 'Inspired';
+      if(idle>=4 || (w.done===0 && (day===0 || day>=4))) return 'Resting';
+      return 'Calm';
+    }
+    function companionXP(passes,w){
+      const r=rankInfo(passes);
+      if(passes>=24)return{xp:100,text:'Gamaken has reached the final form and now trains beside you.'};
+      const segmentPasses=passes-r.prev;
+      const segmentSize=Math.max(1,r.next-r.prev);
+      const base=(segmentPasses/segmentSize)*80;
+      const momentum=Math.min(20, w.done*4 + Math.min(8,w.s.length*2) + (w.pass?6:0));
+      const xp=Math.round(Math.min(100,base+momentum));
+      const nf=nextForm(passes);
+      return{xp,text:nf?`${r.next-passes} passed week${r.next-passes===1?'':'s'} until ${nf.title}.`:'Final evolution reached.'};
+    }
     function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2200)}
     function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));window.scrollTo({top:0,behavior:'smooth'})}
     document.addEventListener('click',e=>{const t=e.target.closest('[data-tab]');if(t)go(t.dataset.tab)});
     document.getElementById('trainingDate').value=today();
+
+    function renderCompanion(w,p,r){
+      const form=currentForm(p), mood=companionMood(w), meta=moodMeta[mood], xp=companionXP(p,w), nf=nextForm(p);
+      companionStageArt.src=form.img; companionStageArt.alt=`Gamaken in ${form.title} form`;
+      companionRankLine.textContent=`${form.rank} form · linked to your ${r.name.toLowerCase()} rank`;
+      companionMood.textContent=meta.label;
+      companionMood.className=`mood-pill mood-${meta.label.toLowerCase()}`;
+      companionForm.textContent=form.title;
+      companionSpeech.textContent=meta.quote;
+      companionMoodArt.src=meta.img; companionMoodArt.alt=`Gamaken ${meta.label.toLowerCase()} mood`;
+      companionMoodTitle.textContent=meta.label;
+      companionMoodNote.textContent=meta.note;
+      companionXpText.textContent=`${xp.xp} / 100 XP`;
+      companionXpProgress.style.width=xp.xp+'%';
+      companionNextText.textContent=nf?`${xp.text} Current stage: ${form.no}/6.`:'Final form unlocked. Gamaken now stands as the Sage of the Academy.';
+      miniRank.textContent=r.name; miniPasses.textContent=p; miniFormNo.textContent=`${form.no} / 6`;
+      stageStrip.innerHTML=forms.map(f=>`<div class="stage-dot ${f.title===form.title?'active':''}"><img src="${f.img}" alt="${f.title}"><small>${f.title}</small></div>`).join('');
+    }
 
     function renderHome(){
       const mon=currentWeekMonday(),w=weekResult(mon),p=passedCount(),r=rankInfo(p),weekNo=Math.max(1,diffWeeks(state.academyStart,mon)+1);
@@ -301,15 +421,11 @@
       heroProgress.style.width=(w.done/4*100)+'%';heroProgressText.textContent=`${w.done}/4 required missions complete`;
       statA.textContent=w.done+'/4';statB.textContent=w.s.length;statC.textContent=w.grade;
       weekLabel.textContent=fmtDate(mon)+' – '+fmtDate(addDays(mon,6));
-      const missions=[
-        ['🥊','Striking','1 Muay Thai or Boxing class',w.striking],
-        ['🤼','Grappling','1 No-Gi, Wrestling or Open Mat session',w.grappling],
-        ['🥋','Combat','1 additional combat class',w.extra],
-        ['🏋️','Physical Prep','1 S&C / Move Strong / Bags class / Kickboxing & HIIT',w.physical]
-      ];
+      const missions=[['🥊','Striking','1 Muay Thai or Boxing class',w.striking],['🤼','Grappling','1 No-Gi, Wrestling or Open Mat session',w.grappling],['🥋','Combat','1 additional combat class',w.extra],['🏋️','Physical Prep','1 S&C / Move Strong / Bags class / Kickboxing & HIIT',w.physical]];
       missionList.innerHTML=missions.map(m=>`<div class="mission"><div class="mission-icon">${m[0]}</div><div><h3>${m[1]}</h3><p>${m[2]}</p></div><span class="badge ${m[3]?'done':''}">${m[3]?'COMPLETE':'PENDING'}</span></div>`).join('');
       rankSeal.textContent=r.seal;rankName.textContent=r.name;rankProgressText.textContent=p>=24?'Campaign complete':`${r.next-p} more passed week${r.next-p===1?'':'s'} to next promotion`;
       rankProgress.style.width=(p>=24?100:Math.max(0,(p-r.prev)/(r.next-r.prev)*100))+'%';passesStat.textContent=p;sessionsStat.textContent=state.training.length;gradeStat.textContent=w.grade;
+      renderCompanion(w,p,r);
     }
 
     function renderLog(){
@@ -317,7 +433,7 @@
       trainingFeed.innerHTML=sorted.length?sorted.slice(0,40).map(x=>`<div class="entry"><div><strong class="discipline-${slug(x.discipline)}">${esc(x.discipline)} · ${fmtDate(x.date)}</strong><small>${esc(x.level||'')} ${x.duration?`· ${esc(x.duration)} min`:''}${x.notes?`<br>${esc(x.notes)}`:''}</small></div><button class="pill" data-del-training="${esc(x.id)}">REMOVE</button></div>`).join(''):'<div class="empty">No Academy training logged yet.</div>';
       trainingCountText.textContent=state.training.length+' total';
     }
-    trainingForm.addEventListener('submit',e=>{e.preventDefault();state.training.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),date:trainingDate.value,discipline:discipline.value,level:classLevel.value,duration:+duration.value||60,notes:trainingNotes.value.trim(),created:Date.now()});save();trainingNotes.value='';renderAll();toast('Training logged · mission status updated')});
+    trainingForm.addEventListener('submit',e=>{e.preventDefault();state.training.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),date:trainingDate.value,discipline:discipline.value,level:classLevel.value,duration:+duration.value||60,notes:trainingNotes.value.trim(),created:Date.now()});save();trainingNotes.value='';renderAll();toast('Training logged · Gamaken noticed')});
     trainingFeed.addEventListener('click',e=>{const b=e.target.closest('[data-del-training]');if(!b)return;state.training=state.training.filter(x=>x.id!==b.dataset.delTraining);save();renderAll();toast('Training entry removed')});
     discipline.addEventListener('change',()=>{if(physicalDisciplines.includes(discipline.value)){classLevel.value='Physical Prep';duration.value=discipline.value==='Kickboxing & HIIT'?45:60}else if(discipline.value==='Open Mat'){classLevel.value='Open Mat';duration.value=60}else{classLevel.value='All Levels';duration.value=60}});
 
@@ -345,8 +461,8 @@
 
     function renderSettings(){academyStart.value=state.academyStart;cadetName.value=state.cadetName||''}
     saveSettings.addEventListener('click',()=>{state.academyStart=mondayOf(academyStart.value||today());state.cadetName=cadetName.value.trim();save();renderAll();toast('Settings saved')});
-    exportBtn.addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='combat-academy-backup-v2.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('Backup exported')});
-    resetBtn.addEventListener('click',()=>{if(!confirm('Reset ALL Combat Academy data on this device?'))return;localStorage.removeItem(KEY);state=structuredClone(defaults);save();renderAll();toast('Academy data reset')});
+    exportBtn.addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='combat-academy-backup-v3.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('Backup exported')});
+    resetBtn.addEventListener('click',()=>{if(!confirm('Reset ALL Combat Academy data on this device?'))return;localStorage.removeItem(KEY);state=JSON.parse(JSON.stringify(defaults));save();renderAll();toast('Academy data reset')});
 
     function renderAll(){renderHome();renderLog();renderPlanner();renderIntel();renderRecords();renderSettings()}
     renderAll();

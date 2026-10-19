@@ -4,9 +4,9 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0a0f16",
-  "theme_color": "#111827",
-  "description": "Personal combat training academy tracker, weekly missions, rota planner and timetable.",
+  "background_color": "#110f17",
+  "theme_color": "#24163E",
+  "description": "Personal combat training academy tracker with Gamaken companion evolution, weekly missions, rota planner and timetable.",
   "icons": [
     {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
     {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
